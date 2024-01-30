@@ -27,84 +27,51 @@ function page_animation() {
     opacity: 1,
     duration: 0.5,
   });
+
+  tl.to("#infocard", {
+    scale: 1,
+    opacity: 1,
+    duration: 0.5,
+  });
 }
 page_animation();
 
-function character() {
-  let urlQueryParameters = new URLSearchParams(window.location.search),
-    queryParameterName = urlQueryParameters.get("heroname"),
-    heroname = document.getElementById("heroname").value;
+const url =
+  "https://gateway.marvel.com/v1/public/characters?ts=1&apikey=c358a32dc560241181f58a148c7a8d0b&hash=8eea7971cc4592edb5011be02e378133";
 
-  if (queryParameterName !== null && queryParameterName !== "") {
-    document.getElementById("heroname").value = queryParameterName;
-    RTCPeerConnection();
-  } else if (heroname !== null && heroname) {
+const request = new Request(url);
+
+var cardimage = document.querySelector("#card-image");
+
+var search = document.querySelector("#button");
+
+function herosearch() {
+  var searchitem = document.getElementById("heroname").value;
+
+  const apiurl = `https://gateway.marvel.com/v1/public/characters?name=${searchitem}&ts=1&apikey=c358a32dc560241181f58a148c7a8d0b&hash=8eea7971cc4592edb5011be02e378133`;
+
+  fetch(apiurl)
+    .then((response) => response.json())
+    .then((data) => {
+      display(data);
+    })
+    .catch((error) => console.error("Error", error));
+}
+
+function display(data) {
+  var cardtext = document.getElementById("#card-text");
+  cardtext.innerHTML = "";
+
+  const hero = data.data.results[0];
+
+  if (hero) {
+    const description = hero.description || "No description available.";
+    const thumbnail = hero.thumbnail.path + "." + hero.thumbnail.extension;
+
+    const html = `<p>${description}</p>`
+
+    cardtext.innerHTML = html;
   } else {
+    cardtext.innerHTML = "Hero not found.";
   }
 }
-
-function connection () {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-const publicKey = "c358a32dc560241181f58a148c7a8d0b";
-const privateKey = "c358a32dc560241181f58a148c7a8d0b"; // Remember to keep your private key secure on the server-side
-
-const baseURL = "https://gateway.marvel.com/v1/public/characters";
-
-// Function to generate a timestamp in seconds
-const generateTimestamp = () => Math.floor(Date.now() / 1000);
-
-// Function to generate an MD5 hash required by the Marvel API
-const generateHash = (timestamp) => {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(timestamp + privateKey + publicKey);
-
-  return crypto.subtle.digest("MD5", data).then((hashBuffer) => {
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
-    return hashHex;
-  });
-};
-
-// Get the current timestamp in seconds
-const timestamp = generateTimestamp();
-
-// Replace {characterId} with the specific ID of the Marvel character
-const characterId = 1009368; // Example: Spider-Man
-
-// Generate the hash for authentication
-generateHash(timestamp)
-  .then((hash) => {
-    // Construct the API request URL for the specific character
-    const url = `${baseURL}/${characterId}?apikey=${publicKey}&ts=${timestamp}&hash=${hash}`;
-
-    // Make the API request using the fetch function
-    return fetch(url);
-  })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`Network response was not ok: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then((data) => {
-    // Handle the data here
-    console.log(data);
-  })
-  .catch((error) => {
-    // Handle errors here
-    console.error("Error:", error);
-  });
