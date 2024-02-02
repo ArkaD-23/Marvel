@@ -64,5 +64,6 @@ let herosearch = () => {
 var info_card = document.getElementById("info-card");
 
 search.addEventListener("click", herosearch);
+search.addEventListener("touchstart",herosearch);
 
 herosearch();
