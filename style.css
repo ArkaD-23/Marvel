@@ -148,6 +148,10 @@ h1 {
     align-items: center;
     justify-content: right;
 }
+#card-text {
+    font-weight: 500;
+    font-family: futura;
+}
 #infocard {
     padding-right: 170px;
     background: transparent;

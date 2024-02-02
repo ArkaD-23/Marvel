@@ -36,42 +36,33 @@ function page_animation() {
 }
 page_animation();
 
-const url =
-  "https://gateway.marvel.com/v1/public/characters?ts=1&apikey=c358a32dc560241181f58a148c7a8d0b&hash=8eea7971cc4592edb5011be02e378133";
-
-const request = new Request(url);
-
-var cardimage = document.querySelector("#card-image");
-
+var card_text = document.getElementById("#card-text");
 var search = document.querySelector("#button");
 
-function herosearch() {
+let herosearch = () => {
+  var cardimage = document.querySelector("#card-image");
   var searchitem = document.getElementById("heroname").value;
+  var card_text = document.getElementById("card-text");
+  card_text.innerHTML = "Know your hero";
+  cardimage.src = `marvelimages.jpeg`;
 
   const apiurl = `https://gateway.marvel.com/v1/public/characters?name=${searchitem}&ts=1&apikey=c358a32dc560241181f58a148c7a8d0b&hash=8eea7971cc4592edb5011be02e378133`;
 
   fetch(apiurl)
     .then((response) => response.json())
-    .then((data) => {
-      display(data);
+    .then((response) => {
+      console.log(response);
+      card_text.innerHTML = `${response.data.results[0].description}`;
+      const thumbnail = response.data.results[0].thumbnail;
+      const imageUrl = `${thumbnail.path}.${thumbnail.extension}`;
+      const imageElement = document.getElementById("characterImage");
+      cardimage.src = imageUrl;
     })
     .catch((error) => console.error("Error", error));
-}
+};
 
-function display(data) {
-  var cardtext = document.getElementById("#card-text");
-  cardtext.innerHTML = "";
+var info_card = document.getElementById("info-card");
 
-  const hero = data.data.results[0];
+search.addEventListener("click", herosearch);
 
-  if (hero) {
-    const description = hero.description || "No description available.";
-    const thumbnail = hero.thumbnail.path + "." + hero.thumbnail.extension;
-
-    const html = `<p>${description}</p>`
-
-    cardtext.innerHTML = html;
-  } else {
-    cardtext.innerHTML = "Hero not found.";
-  }
-}
+herosearch();
