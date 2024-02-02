@@ -59,6 +59,7 @@ h1 {
     
 
 #character-card {
+    display: block;
     height: 600px;
     width: 600px;
     border: 1px solid red;
@@ -117,7 +118,7 @@ h1 {
     cursor: pointer;
     border-radius: 40px;
     background: red;
-    /*border: 2px solid #fff;*/
+    border: 2px solid #fff;
     padding: 20px 40px;
     margin-top: 20px;
     font-family: futura;
@@ -158,3 +159,101 @@ h1 {
     opacity: 0;
 }
 
+@media(max-width: 600px) {
+
+    #main {
+        height: 150vh;
+        width: 100%;
+        overflow: hidden;
+        display: inline-block;
+    }
+    
+
+    #heading {
+        position: relative;
+        height: 50vh;
+    }
+    
+    #h11 {
+        background-color: red;
+        margin: 30px ;
+        display: block;
+        border-radius: 40px;
+    }
+    
+    #h12 {
+        background-color: red;
+        margin: 30px;
+        display: block;
+        border-radius: 40px;
+    }
+    
+    #h13 {
+        background-color: red;
+        margin: 30px;
+        display: block;
+        border-radius: 40px;
+    }
+    
+    
+    h1 {
+        font-size: 5vh;
+        font-family: futura;
+        text-transform: uppercase;
+        color: aliceblue;
+        opacity: 0;
+        padding: 30px;
+    }
+        
+    #character-card {
+        background-image: url(marvelimage.jpg);
+        border-bottom: 5px solid white;
+        border-right: 3px solid white;
+        border-radius: 3px;
+        height: 36em;
+        width: 22em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0em 1.5em;
+        padding-bottom: 2em;
+    }
+
+    #innercard {
+        height: 30em;
+        width: 15em;
+        border: 3px solid white;
+        padding-top: 7.5em;
+
+    }
+    
+    .character-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .character-details {
+        padding: 10px;
+    }
+    #page2 {
+        height: 70vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 5em;
+    }
+    #card-text {
+        font-weight: 500;
+        font-family: futura;
+    }
+    #infocard {
+        background: transparent;
+        opacity: 0;
+        position: relative;
+        padding-right: 0px;
+    }
+        
+
+}
